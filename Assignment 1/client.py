@@ -6,8 +6,6 @@ import socket
 def main(argv):
 	# Debug mode flag
 	DEBUG = False
-	# End Of File 'constant'
-	EOF = '~'
 
 	try:
 		opts, _ = getopt.getopt(argv, "d")
@@ -39,9 +37,8 @@ def main(argv):
 			s.send(contents)
 			contents = f.read(1024)
 
-	# Send the End Of File character
-	s.send(EOF)
 	print('Done.\n')
+	s.shutdown(socket.SHUT_WR)
 
 	# Receive the response from the server
 	rec = s.recv(1024)

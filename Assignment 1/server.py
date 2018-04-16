@@ -7,8 +7,6 @@ import socket
 def main(argv):
     # Debug mode flag
     DEBUG = False
-    # End Of File 'constant'
-    EOF = '~'
 
     # Parse options for debug mode
     try:
@@ -43,20 +41,20 @@ def main(argv):
 
         print('Waiting to receive file...')
         # Wait for characters until an EOF character is received
-        rec = ''
-        while not rec.endswith(EOF):
-            # Temporarily store the current characters
-            rec = c.recv(1024)
+        rec = c.recv(1024)
+        while rec:
             if DEBUG:
                 print('Length received: %d' % len(rec))
             # Accumulates the entire file
             cumulString += rec
+            # Temporarily store the current characters
+            rec = c.recv(1024)
 
         print('Done.\n')
 
         # If a string exists, count the characters and words
         if cumulString:
-            numChars = len(cumulString) - 1
+            numChars = len(cumulString)
             cumulString = cumulString.split(' ')
             numWords = len(cumulString)
 

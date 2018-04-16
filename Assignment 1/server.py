@@ -41,7 +41,7 @@ def main(argv):
 
         print('Waiting to receive file...')
         # Wait for characters until an EOF character is received
-        rec = c.recv(1024)
+        rec = s.recv(1024)
         while rec:
             if DEBUG:
                 print('Length received: %d' % len(rec))
@@ -60,7 +60,7 @@ def main(argv):
 
         print('Sending Data...')
         # Send the response with the number of characters and words to the client
-        c.send('File was received.\n' \
+        s.send('File was received.\n' \
             'There are %d characters in the file\n' \
             'There are %d words in the file' % (numChars, numWords))
         print('Done.\n')

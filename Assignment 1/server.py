@@ -41,12 +41,12 @@ def main(argv):
 
         print('Waiting to receive file...')
         # Wait for characters until an EOF character is received
-        rec = s.recv(1024)
+        rec = c.recv(1024)
         while rec:
             if DEBUG:
                 print('Length received: %d' % len(rec))
             # Accumulates the entire file
-            cumulString += rec
+            cumulString += rec.decode('utf-8')
             # Temporarily store the current characters
             rec = c.recv(1024)
 
@@ -60,9 +60,8 @@ def main(argv):
 
         print('Sending Data...')
         # Send the response with the number of characters and words to the client
-        s.send('File was received.\n' \
-            'There are %d characters in the file\n' \
-            'There are %d words in the file' % (numChars, numWords))
+        sendData = str.encode('File was received.\nThere are %d characters in the file\nThere are %d words in the file' % (numChars, numWords))
+        c.send(sendData)
         print('Done.\n')
 
         # Close the connection

@@ -26,21 +26,18 @@ def main(argv):
 	# Connect to the server
 	s.connect((host, port))
 
-	# Open the file for reading
-	f = open('test.txt', 'r')
-
 	print('Sending File...')
-	# Read the file
-	contents = f.read(1024)
-	while contents:
-		if DEBUG:
-			print('Length sent: %d' % len(contents))
-		# Send the file to the server
-		s.send(contents)
-		contents = f.read(1024)
 
-	# Close the file
-	f.close()
+	# Open the file for reading
+	with open('test.txt', 'r') as f:
+		# Read the file
+		contents = f.read(1024)
+		while contents:
+			if DEBUG:
+				print('Length sent: %d' % len(contents))
+			# Send the file to the server
+			s.send(contents)
+			contents = f.read(1024)
 
 	# Send the End Of File character
 	s.send(EOF)

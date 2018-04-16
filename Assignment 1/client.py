@@ -1,4 +1,4 @@
-#! usr/bin/python3
+#!/usr/bin/python3
 
 import sys, getopt
 import socket
@@ -34,7 +34,7 @@ def main(argv):
 			if DEBUG:
 				print('Length sent: %d' % len(contents))
 			# Send the file to the server
-			s.send(contents)
+			s.send(str.encode(contents))
 			contents = f.read(1024)
 
 	print('Done.\n')
@@ -47,7 +47,7 @@ def main(argv):
 		print('Length: %d' % len(rec))
 	
 	# Print the response
-	print(rec)
+	print(rec.decode('utf-8'))
 
 	# Close the socket
 	s.close()

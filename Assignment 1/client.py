@@ -18,7 +18,7 @@ def main(argv):
 	# Create a socket object
 	s = socket.socket()
 	# Get public ip address
-	host = socket.gethostname()
+	host = input("Enter the hostname\n>> ")
 	# Reserve a port for your service.
 	port = 12345
 	# Connect to the server

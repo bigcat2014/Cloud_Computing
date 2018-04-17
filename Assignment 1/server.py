@@ -38,6 +38,7 @@ def main(argv):
         cumulString = ''
         numChars = 0
         numWords = 0
+        numLines = 0
 
         print('Waiting to receive file...')
         # Wait for characters until an EOF character is received
@@ -54,13 +55,15 @@ def main(argv):
 
         # If a string exists, count the characters and words
         if cumulString:
+            wordList = cumulString.split(' ')
+            lineList = cumulString.split('\n')
             numChars = len(cumulString)
-            cumulString = cumulString.split(' ')
-            numWords = len(cumulString)
+            numWords = len(wordList)
+            numLines = len(lineList)
 
         print('Sending Data...')
         # Send the response with the number of characters and words to the client
-        sendData = str.encode('File was received.\nThere are %d characters in the file\nThere are %d words in the file' % (numChars, numWords))
+        sendData = str.encode('File was received.\nThere are %d characters in the file\nThere are %d words in the file\nThere are %d lines in the file' % (numChars, numWords, numLines))
         c.send(sendData)
         print('Done.\n')
 

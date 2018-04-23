@@ -1,5 +1,9 @@
 #!/usr/bin/python3
 
+# Logan Thomas
+# Cloud Computing
+# Assignment 1
+
 import sys, getopt
 import socket
 

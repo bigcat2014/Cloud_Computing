@@ -36,7 +36,7 @@ def print_correct((isCorrect, guess)):
 def print_round(won, guesses, word, score):
 	if won:
 		print('Congratulations, you won this round!')
-		print('It took you %d guesses to guess the word %s' % (6 - guesses, word))
+		print('It took you %d guesses to guess the word %s' % (guesses, word))
 	else:
 		print('Unfortunately, you lost this round.')
 		print('The word was %s' % word)

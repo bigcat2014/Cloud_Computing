@@ -28,6 +28,10 @@ def print_tries(num_guesses):
 	print("Number of tries left: %d" % num_guesses)
 
 
+def print_already_guessed(guess):
+	print("%s has already been guessed, try again." % guess)
+
+
 def print_correct((isCorrect, guess)):
 	if isCorrect:
 		print("There are %d %s's in the word" % (isCorrect, guess))

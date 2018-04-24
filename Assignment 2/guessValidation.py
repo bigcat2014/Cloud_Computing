@@ -1,3 +1,6 @@
+def get_guess():
+	return raw_input("Guess a letter\n>> ")[:1]
+
 def correct_guess(word, guess):
 	return word.count(guess), guess
 

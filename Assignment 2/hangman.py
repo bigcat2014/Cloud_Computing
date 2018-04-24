@@ -34,14 +34,17 @@ def main():
 			print_tries(curr_guesses)
 			print('\n')
 
-			guess = raw_input("Guess a letter\n>> ")
+			guess = get_guess()
+			while guess in guessed_letters:
+				print_already_guessed(guess)
+				guess = get_guess()
 			curr_guesses -= 1
 			print('\n')
 
 			print_correct(correct_guess(word, guess))
 			guessed_letters.append(guess)
 
-			if word_guessed(word, guessed_letters)[0]:
+			if word_guessed(word, guessed_letters):
 				score += words[word]
 				print('\n')
 				print_round(True, GUESSES - curr_guesses, word, score)

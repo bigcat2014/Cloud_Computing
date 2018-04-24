@@ -133,6 +133,8 @@ def main():
 			print('\n')
 			print_round(False, curr_guesses, word, score)
 			print('\n')
+		
+		del(words[word])
 	
 	print('\n')
 	print_game(score)

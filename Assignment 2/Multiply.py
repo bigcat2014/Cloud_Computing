@@ -41,8 +41,8 @@ class Multiplier:
 
 
 if __name__ == '__main__':
-	server = xmlrpc.server.SimpleXMLRPCServer(("localhost", 8001))
+	server = xmlrpc.server.SimpleXMLRPCServer(("localhost", 8001), allow_none=True)
 	server.register_instance(Multiplier())
 	server.register_function(Multiplier.network_multiply)
-	server.register_function(Multiplier.set_adder_server())
+	server.register_function(Multiplier.set_adder_server)
 	server.serve_forever()

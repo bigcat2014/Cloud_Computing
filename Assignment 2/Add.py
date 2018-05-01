@@ -25,7 +25,7 @@ class Adder:
 	
 
 if __name__ == '__main__':
-	server = xmlrpc.server.SimpleXMLRPCServer(("localhost", 8000))
+	server = xmlrpc.server.SimpleXMLRPCServer(("0.0.0.0", 8000))
 	server.register_instance(Adder())
 	server.register_function(Adder.network_add)
 	server.serve_forever()

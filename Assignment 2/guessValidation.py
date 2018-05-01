@@ -1,7 +1,7 @@
 def get_guess():
 	guess = input("Guess a letter\n>> ")
 	if guess:
-		return guess
+		return guess[:1].lower()
 	else:
 		print("Please enter a guess.")
 		return get_guess()

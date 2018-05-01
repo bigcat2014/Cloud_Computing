@@ -43,7 +43,7 @@ def main():
 
 			count = correct_guess(word, guess)
 			print_correct(count, guess)
-			guessed_letters.append(guess.lower())
+			guessed_letters.append(guess)
 
 			if word_guessed(word, guessed_letters):
 				score += words[word]

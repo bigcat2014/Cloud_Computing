@@ -1,17 +1,17 @@
 import random
 
+
 def get_word_dictionary(filename):
-	wordDict = {}
-	content = []
+	word_dict = {}
 	with open(filename, 'r') as f:
 		content = f.readlines()
 	
 	for curr_line in content:
 		line = curr_line.split()
-		wordDict[line[0]] = int(line[1])
+		word_dict[line[0]] = int(line[1])
 
-	return wordDict
+	return word_dict
 
 
 def pick_word(words):
-	return random.choice(words.keys())
+	return random.choice(list(words.keys()))

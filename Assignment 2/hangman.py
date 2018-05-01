@@ -19,7 +19,7 @@ def main():
 
 	words = get_word_dictionary('dictionary.txt')
 
-	while (score > 0 and score < 1000):
+	while 0 < score < 1000:
 		guessed_letters = []
 		curr_guesses = GUESSES
 		word = pick_word(words)
@@ -41,8 +41,9 @@ def main():
 			curr_guesses -= 1
 			print('\n')
 
-			print_correct(correct_guess(word, guess))
-			guessed_letters.append(guess)
+			count = correct_guess(word, guess)
+			print_correct(count, guess)
+			guessed_letters.append(guess.lower())
 
 			if word_guessed(word, guessed_letters):
 				score += words[word]

@@ -8,14 +8,15 @@ def print_word_picked():
 
 
 def print_word(word, guessed_letters):
+	lowercase_word = word.lower()
 	length = len(word)
 	return_string = ['_' for letter in range(length)]
 
 	for letter in guessed_letters:
-		index = word.find(letter)
+		index = lowercase_word.find(letter.lower())
 		while index != -1:
-			return_string[index] = letter
-			index = word.find(letter, index + 1)
+			return_string[index] = word[index]
+			index = lowercase_word.find(letter, index + 1)
 	
 	print('Current Guess: %s' % ' '.join(return_string))
 
@@ -32,9 +33,11 @@ def print_already_guessed(guess):
 	print("%s has already been guessed, try again." % guess)
 
 
-def print_correct((isCorrect, guess)):
-	if isCorrect:
-		print("There are %d %s's in the word" % (isCorrect, guess))
+def print_correct(is_correct, guess):
+	if is_correct:
+		print("There are %d %s's in the word" % (is_correct, guess))
+	else:
+		print("There are 0 %s's in the word" % guess)
 
 
 def print_round(won, guesses, word, score):

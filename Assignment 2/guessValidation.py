@@ -1,3 +1,11 @@
+#!/usr/bin/python3
+#
+#  Logan Thomas
+#  Cloud Computing Lab
+#  Assignment 2
+#
+
+
 def get_guess():
 	guess = input("Guess a letter\n>> ")
 	if guess:

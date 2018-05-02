@@ -1,4 +1,12 @@
+#!/usr/bin/python3
+#
+#  Logan Thomas
+#  Cloud Computing Lab
+#  Assignment 2
+#
+
 from math import sqrt
+
 
 class Shape:
 	sides = []
@@ -13,6 +21,7 @@ class Shape:
 
 class Rectangle(Shape):
 	def __init__(self, x, y):
+		super().__init__()
 		self.name = 'Rectangle'
 		self.sides = [x, y]
 	
@@ -23,6 +32,7 @@ class Rectangle(Shape):
 class Triangle(Shape):
 
 	def __init__(self, s1, s2, s3):
+		super().__init__()
 		self.name = 'Triangle'
 		self.sides = [s1, s2, s3]
 	

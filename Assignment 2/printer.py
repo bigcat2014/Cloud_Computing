@@ -1,3 +1,11 @@
+#!/usr/bin/python3
+#
+#  Logan Thomas
+#  Cloud Computing Lab
+#  Assignment 2
+#
+
+
 def print_welcome_message(points):
 	print('Welcome to Hangman')
 	print('Your Current Score is %d points' % points)

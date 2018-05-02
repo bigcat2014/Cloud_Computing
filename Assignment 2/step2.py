@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 #
-#	Logan Thomas
-#	Cloud Computing
-#	Assignment 2
+#  Logan Thomas
+#  Cloud Computing Lab
+#  Assignment 2
 #
 
 
@@ -24,6 +24,7 @@ def main():
 	
 	output = ' '.join(output)
 	print('"%s", the sum of numbers is %.3f' % (output, total))
+
 
 if __name__ == "__main__":
 	main()

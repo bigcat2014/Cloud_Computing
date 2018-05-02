@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 #
-# Logan Thomas
-# Clouf Computing
-# Assignment 2
+#  Logan Thomas
+#  Cloud Computing Lab
+#  Assignment 2
 #
 
 from printer import *
@@ -10,6 +10,7 @@ from dictManipulation import get_word_dictionary, pick_word
 from guessValidation import *
 
 GUESSES = 6
+
 
 def main():
 	score = 500
@@ -61,6 +62,7 @@ def main():
 	
 	print('\n')
 	print_game(score)
+
 
 if __name__ == "__main__":
 	main()

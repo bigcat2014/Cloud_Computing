@@ -1,7 +1,13 @@
 #!/usr/bin/python3
+#
+#  Logan Thomas
+#  Cloud Computing Lab
+#  Assignment 2
+#
 
+import getopt
+import sys
 from xmlrpc.client import ServerProxy
-import sys, getopt
 
 
 def main(argv):
@@ -39,11 +45,6 @@ def main(argv):
 	
 	if DEBUG:
 		print('Adder server set on multiplier server\n')
-	
-	# adder_server = ServerProxy('http://0.0.0.0:8000/')
-	# multiplier_server = ServerProxy('http://0.0.0.0:8001/')
-	#
-	# multiplier_server.set_adder_server('http://0.0.0.0:8000/')
 	
 	lines = []
 	with open('test.txt', 'r') as f:

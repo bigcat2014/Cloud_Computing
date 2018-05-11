@@ -49,11 +49,13 @@ def chat_server():
 						if sock in SOCKET_LIST:
 							SOCKET_LIST.remove(sock)
 						
+						print("Client (%s,%s) disconnected" % addr)
 						# at this stage, no data means probably the connection has been broken
 						broadcast(server_socket, sock, "Client (%s, %s) is offline\n" % addr)
 				
 				# exception
 				except:
+					print("Client (%s,%s) disconnected" % addr)
 					broadcast(server_socket, sock, "Client (%s, %s) is offline\n" % addr)
 					continue
 	

@@ -1,3 +1,4 @@
+#!usr/bin/python3
 # chat_client.py
 
 import sys

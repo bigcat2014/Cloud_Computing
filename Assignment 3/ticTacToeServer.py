@@ -234,6 +234,8 @@ def chat_server():
 					
 					if data:
 						# there is something in the socket
+						broadcast(server_socket, sock, get_game_board(board))
+						broadcast(server_socket, sock, "\r" + '[' + str(sock.getpeername()) + '] ' + data)
 						move_good, coordinates = check_move(data)
 						if move_good and len(coordinates) == 2:
 							if sock in X_LIST and turn == Turn.X_TURN:

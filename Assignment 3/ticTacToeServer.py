@@ -248,8 +248,8 @@ def chat_server():
 						if move_good:
 							if sock in X_LIST and turn == Turn.X_TURN:
 								turn = Turn.O_TURN
-								board[coordinates[1]][coordinates[0]] = BoardValue.X
-								board_string = get_game_board(board)
+								board[coordinates[0]][coordinates[1]] = BoardValue.X
+								board_string = get_game_board(board) + '\n'
 								sock.send(str.encode(board_string))
 								broadcast(server_socket, sock, board_string)
 								
@@ -267,8 +267,8 @@ def chat_server():
 								
 							elif sock in O_LIST and turn == Turn.O_TURN:
 								turn = Turn.X_TURN
-								board[coordinates[1]][coordinates[0]] = BoardValue.O
-								board_string = get_game_board(board)
+								board[coordinates[0]][coordinates[1]] = BoardValue.O
+								board_string = get_game_board(board) + '\n'
 								sock.send(str.encode(board_string))
 								broadcast(server_socket, sock, board_string)
 								

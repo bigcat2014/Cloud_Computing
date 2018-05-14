@@ -229,11 +229,11 @@ def chat_server():
 				if len(SOCKET_LIST) % 2 == 0:
 					X_LIST.append(sockfd)
 					print("Client (%s,%s) connected as X" % addr)
-					broadcast(server_socket, sockfd, "[%s:%s] entered our chatting room as X\n" % addr)
+					broadcast(server_socket, sockfd, "[%s:%s] entered our game as X\n" % addr)
 				else:
 					O_LIST.append(sockfd)
 					print("Client (%s,%s) connected as O" % addr)
-					broadcast(server_socket, sockfd, "[%s:%s] entered our chatting room as O\n" % addr)
+					broadcast(server_socket, sockfd, "[%s:%s] entered our game as O\n" % addr)
 			
 			# a message from a client, not a new connection
 			else:
@@ -285,9 +285,9 @@ def chat_server():
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 							
 							else:
-								sock.send(str.encode("It is not your turn."))
+								sock.send(str.encode("It is not your turn.\n"))
 						else:
-							sock.send(str.encode("Invalid move. Try again.\n>> "))
+							sock.send(str.encode("Invalid move. Try again.\n"))
 									
 					else:
 						# remove the socket that's broken

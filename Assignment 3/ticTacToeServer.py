@@ -259,7 +259,7 @@ def chat_server():
 								board[coordinates[0]][coordinates[1]] = BoardValue.X
 								board_string = get_game_board(board) + '\n'
 								sock.send(str.encode(board_string))
-								broadcast(server_socket, sock, 'Enter the coordinates of your next move (x, y):\n>> ')
+								broadcast(server_socket, sock, board_string + 'Enter the coordinates of your next move (x, y):\n>> ')
 								
 								winner = get_winner(board, coordinates)
 								if winner == Winner.DRAW:

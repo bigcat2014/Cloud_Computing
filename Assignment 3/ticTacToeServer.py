@@ -254,7 +254,7 @@ def chat_server():
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 								elif winner:
-									broadcast(server_socket, sock, "%s's have won the game" % winner)
+									broadcast(server_socket, sock, "%s's have won the game\n" % winner.value)
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 								
@@ -269,7 +269,7 @@ def chat_server():
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 								elif winner:
-									broadcast(server_socket, sock, "%s's have won the game" % winner)
+									broadcast(server_socket, sock, "%s's have won the game\n" % winner.value)
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 						else:

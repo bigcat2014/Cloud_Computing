@@ -283,6 +283,9 @@ def chat_server():
 									broadcast(server_socket, sock, "%s's have won the game\n" % winner.value)
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+							
+							else:
+								sock.send(str.encode("It is not your turn."))
 						else:
 							sock.send(str.encode("Invalid move. Try again.\n>> "))
 									

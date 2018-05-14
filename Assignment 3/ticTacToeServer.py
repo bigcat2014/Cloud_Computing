@@ -2,6 +2,9 @@
 import sys
 import socket
 import select
+import enum
+import re
+
 
 HOST = ''
 SOCKET_LIST = []
@@ -12,6 +15,170 @@ PORT = 9009
 BOARD_SIZE = 9
 
 
+class Turn(enum.Enum):
+	X_TURN = enum.auto
+	O_TURN = enum.auto
+
+
+class BoardValue(enum.Enum):
+	X = 'X'
+	O = 'O'
+	EMPTY = '-'
+	
+	
+class Winner(enum.Enum):
+	X = 'X'
+	O = 'O'
+	DRAW = 'Draw'
+	
+
+def get_winner(board, coordinates):
+	if len(coordinates) == 2:
+		current_val = board[coordinates[0]][coordinates[1]]
+		if current_val == BoardValue.EMPTY:
+			return None
+		
+		# - - - - -
+		# - - - - -
+		# o o O - -
+		# - - - - -
+		# - - - - -
+		if coordinates[0] >= 2:
+			if (board[coordinates[0] - 1][coordinates[1]] == current_val and
+						board[coordinates[0] - 2][coordinates[1]] == current_val):
+				return Winner(current_val.value)
+		
+		# - - - - -
+		# - - - - -
+		# - o O o -
+		# - - - - -
+		# - - - - -
+		if 1 <= coordinates[0] < BOARD_SIZE - 1:
+			if (board[coordinates[0] - 1][coordinates[1]] == current_val and
+						board[coordinates[0] + 1][coordinates[1]] == current_val):
+				return Winner(current_val.value)
+		
+		if 1 <= coordinates[0] < BOARD_SIZE - 1 and 1 <= coordinates[1] < BOARD_SIZE - 1:
+			# - - - - -
+			# - o - - -
+			# - - O - -
+			# - - - o -
+			# - - - - -
+			if (board[coordinates[0] - 1][coordinates[1] + 1] == current_val and
+						board[coordinates[0] + 1][coordinates[1] - 1] == current_val):
+				return Winner(current_val.value)
+			# - - - - -
+			# - - - o -
+			# - - O - -
+			# - o - - -
+			# - - - - -
+			elif (board[coordinates[0] - 1][coordinates[1] - 1] == current_val and
+						board[coordinates[0] + 1][coordinates[1] + 1] == current_val):
+				return Winner(current_val.value)
+		
+		# o - - - -
+		# - o - - -
+		# - - O - -
+		# - - - - -
+		# - - - - -
+		if coordinates[0] >= 2 and 1 <= coordinates[1] < BOARD_SIZE:
+			if (board[coordinates[0] - 1][coordinates[1] - 1] == current_val and
+						board[coordinates[0] - 2][coordinates[1] - 2] == current_val):
+				return Winner(current_val.value)
+		
+		# - - - - -
+		# - - o - -
+		# - - O - -
+		# - - o - -
+		# - - - - -
+		if 1 <= coordinates[1] < BOARD_SIZE - 1:
+			if (board[coordinates[0]][coordinates[1] - 1] == current_val and
+						board[coordinates[0]][coordinates[1] + 1] == current_val):
+				return Winner(current_val.value)
+			
+		# - - o - -
+		# - - o - -
+		# - - O - -
+		# - - - - -
+		# - - - - -
+		if coordinates[1] < BOARD_SIZE - 2:
+			if (board[coordinates[0]][coordinates[1] + 1] == current_val and
+						board[coordinates[0]][coordinates[1] + 2] == current_val):
+				return Winner(current_val.value)
+		
+		# - - - - o
+		# - - - o -
+		# - - O - -
+		# - - - - -
+		# - - - - -
+		if coordinates[0] < BOARD_SIZE - 2 and coordinates[1] < BOARD_SIZE - 2:
+			if (board[coordinates[0] + 1][coordinates[1] + 1] == current_val and
+						board[coordinates[0] + 2][coordinates[1] + 2] == current_val):
+				return Winner(current_val.value)
+		
+		# - - - - -
+		# - - - - -
+		# - - O o o
+		# - - - - -
+		# - - - - -
+		if coordinates[0] < BOARD_SIZE - 2:
+			if (board[coordinates[0] + 1][coordinates[1]] == current_val and
+						board[coordinates[0] + 2][coordinates[1]] == current_val):
+				return Winner(current_val.value)
+			
+		# - - - - -
+		# - - - - -
+		# - - O - -
+		# - - - o -
+		# - - - - o
+		if coordinates[0] < BOARD_SIZE - 2 and coordinates[1] >= 2:
+			if (board[coordinates[0] + 1][coordinates[1] - 1] == current_val and
+						board[coordinates[0] + 2][coordinates[1] - 2] == current_val):
+				return Winner(current_val.value)
+		
+		# - - - - -
+		# - - - - -
+		# - - O - -
+		# - - o - -
+		# - - o - -
+		if coordinates[1] >= 2:
+			if (board[coordinates[0]][coordinates[1] - 1] == current_val and
+						board[coordinates[0]][coordinates[1] - 2] == current_val):
+				return Winner(current_val.value)
+		
+		# - - - - -
+		# - - - - -
+		# - - O - -
+		# - o - - -
+		# o - - - -
+		if coordinates[0] >= 2 and coordinates[1] >= 2:
+			if (board[coordinates[0] + 1][coordinates[1] + 1] == current_val and
+						board[coordinates[0] + 2][coordinates[1] + 2] == current_val):
+				return Winner(current_val.value)
+
+		for column in board:
+			if BoardValue.EMPTY in column:
+				break
+		else:
+			return Winner.DRAW
+		
+	return None
+
+
+def check_move(move):
+	move_good = True
+	coordinates = []
+	if re.match(r'^\(\d+,\s?\d+\)$', move):
+		coordinates = map(int, re.findall(r'\d+', move))
+		for num in coordinates:
+			if num < 1 or num > BOARD_SIZE:
+				move_good = False
+	else:
+		move_good = False
+		
+	return move_good, coordinates
+
+
 def get_game_board(board):
 	return_string = ''
 	length = len(board)
@@ -19,7 +186,7 @@ def get_game_board(board):
 		return_string += str(length - i)
 		for tile in board[i]:
 			return_string += '\t'
-			return_string += tile
+			return_string += tile.value
 		return_string += '\n'
 	
 	return return_string
@@ -34,7 +201,8 @@ def chat_server():
 	# add server socket object to the list of readable connections
 	SOCKET_LIST.append(server_socket)
 	
-	board = [['-' for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+	turn = Turn.X_TURN
+	board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 	print("Chat server started on port " + str(PORT))
 	
 	while 1:
@@ -66,24 +234,45 @@ def chat_server():
 					
 					if data:
 						# there is something in the socket
-						broadcast(server_socket, sock, "\r" + '[' + str(sock.getpeername()) + '] ' + data)
-						try:
-							print('SOCKET_LIST: ', SOCKET_LIST.index(sock))
-						except:
-							pass
-						try:
-							print('X_LIST: ', X_LIST.index(sock))
-						except:
-							pass
-						try:
-							print('O_LIST: ', O_LIST.index(sock))
-						except:
-							pass
+						move_good, coordinates = check_move(data)
+						if move_good and len(coordinates) == 2:
+							if sock in X_LIST and turn == Turn.X_TURN:
+								turn = Turn.O_TURN
+								board[coordinates[0]][coordinates[1]] = BoardValue.X
+								broadcast(server_socket, sock, get_game_board(board))
+								
+								winner = get_winner(board, coordinates)
+								if winner == Winner.DRAW:
+									broadcast(server_socket, sock, "The game was a draw.")
+									turn = Turn.X_TURN
+									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+								elif winner:
+									broadcast(server_socket, sock, "%s's have won the game" % winner)
+									turn = Turn.X_TURN
+									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+								
+							elif sock in O_LIST and turn == Turn.O_TURN:
+								turn = Turn.X_TURN
+								board[coordinates[0]][coordinates[1]] = BoardValue.O
+								broadcast(server_socket, sock, get_game_board(board))
+								
+								winner = get_winner(board, coordinates)
+								if winner == Winner.DRAW:
+									broadcast(server_socket, sock, "The game was a draw.")
+									turn = Turn.X_TURN
+									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+								elif winner:
+									broadcast(server_socket, sock, "%s's have won the game" % winner)
+									turn = Turn.X_TURN
+									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+									
 					else:
 						# remove the socket that's broken
 						if sock in SOCKET_LIST:
 							SOCKET_LIST.remove(sock)
+						if sock in X_LIST:
 							X_LIST.remove(sock)
+						if sock in O_LIST:
 							O_LIST.remove(sock)
 						
 						# at this stage, no data means probably the connection has been broken
@@ -93,9 +282,7 @@ def chat_server():
 				except:
 					broadcast(server_socket, sock, "Client (%s, %s) is offline\n" % addr)
 					continue
-	
-	server_socket.close()
-
+					
 
 # broadcast chat messages to all connected clients
 def broadcast(server_socket, sock, message):
@@ -109,18 +296,11 @@ def broadcast(server_socket, sock, message):
 				socket.close()
 				# broken socket, remove it
 				if socket in SOCKET_LIST:
-					try:
-						SOCKET_LIST.remove(socket)
-					except:
-						pass
-					try:
-						X_LIST.remove(socket)
-					except:
-						pass
-					try:
-						O_LIST.remove(socket)
-					except:
-						pass
+					SOCKET_LIST.remove(socket)
+				if socket in X_LIST:
+					X_LIST.remove(socket)
+				if socket in O_LIST:
+					O_LIST.remove(socket)
 
 
 if __name__ == "__main__":

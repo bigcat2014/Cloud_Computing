@@ -170,15 +170,15 @@ def check_move(board, move):
 	coordinates = []
 	if re.match(r'^\(\d+,\s?\d+\)$', move):
 		coordinates = list(map(int, re.findall(r'\d+', move)))
-		coordinates[:] = [element - 1 for element in coordinates]
+		coordinates = [element - 1 for element in coordinates]
 		
 		if len(coordinates) != 2:
-			return False
+			return False, coordinates
 		if board[coordinates[0]][coordinates[1]] != BoardValue.EMPTY:
-			return False
+			return False, coordinates
 		
 		for num in coordinates:
-			if num < 1 or num > BOARD_SIZE:
+			if num < 0 or num >= BOARD_SIZE:
 				move_good = False
 	else:
 		move_good = False

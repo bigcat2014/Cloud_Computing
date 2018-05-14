@@ -5,7 +5,6 @@ import select
 import enum
 import re
 
-
 HOST = ''
 SOCKET_LIST = []
 X_LIST = []
@@ -24,13 +23,13 @@ class BoardValue(enum.Enum):
 	X = 'X'
 	O = 'O'
 	EMPTY = '-'
-	
-	
+
+
 class Winner(enum.Enum):
 	X = 'X'
 	O = 'O'
 	DRAW = 'Draw'
-	
+
 
 def get_winner(board, coordinates):
 	if len(coordinates) == 2:
@@ -45,7 +44,7 @@ def get_winner(board, coordinates):
 		# - - - - -
 		if coordinates[0] >= 2:
 			if (board[coordinates[0] - 1][coordinates[1]] == current_val and
-						board[coordinates[0] - 2][coordinates[1]] == current_val):
+					board[coordinates[0] - 2][coordinates[1]] == current_val):
 				return Winner(current_val.value)
 		
 		# - - - - -
@@ -55,7 +54,7 @@ def get_winner(board, coordinates):
 		# - - - - -
 		if 1 <= coordinates[0] < BOARD_SIZE - 1:
 			if (board[coordinates[0] - 1][coordinates[1]] == current_val and
-						board[coordinates[0] + 1][coordinates[1]] == current_val):
+					board[coordinates[0] + 1][coordinates[1]] == current_val):
 				return Winner(current_val.value)
 		
 		if 1 <= coordinates[0] < BOARD_SIZE - 1 and 1 <= coordinates[1] < BOARD_SIZE - 1:
@@ -65,7 +64,7 @@ def get_winner(board, coordinates):
 			# - - - o -
 			# - - - - -
 			if (board[coordinates[0] - 1][coordinates[1] + 1] == current_val and
-						board[coordinates[0] + 1][coordinates[1] - 1] == current_val):
+					board[coordinates[0] + 1][coordinates[1] - 1] == current_val):
 				return Winner(current_val.value)
 			# - - - - -
 			# - - - o -
@@ -73,7 +72,7 @@ def get_winner(board, coordinates):
 			# - o - - -
 			# - - - - -
 			elif (board[coordinates[0] - 1][coordinates[1] - 1] == current_val and
-						board[coordinates[0] + 1][coordinates[1] + 1] == current_val):
+				  board[coordinates[0] + 1][coordinates[1] + 1] == current_val):
 				return Winner(current_val.value)
 		
 		# o - - - -
@@ -83,7 +82,7 @@ def get_winner(board, coordinates):
 		# - - - - -
 		if coordinates[0] >= 2 and 1 <= coordinates[1] < BOARD_SIZE:
 			if (board[coordinates[0] - 1][coordinates[1] + 1] == current_val and
-						board[coordinates[0] - 2][coordinates[1] + 2] == current_val):
+					board[coordinates[0] - 2][coordinates[1] + 2] == current_val):
 				return Winner(current_val.value)
 		
 		# - - - - -
@@ -93,9 +92,9 @@ def get_winner(board, coordinates):
 		# - - - - -
 		if 1 <= coordinates[1] < BOARD_SIZE - 1:
 			if (board[coordinates[0]][coordinates[1] - 1] == current_val and
-						board[coordinates[0]][coordinates[1] + 1] == current_val):
+					board[coordinates[0]][coordinates[1] + 1] == current_val):
 				return Winner(current_val.value)
-			
+		
 		# - - o - -
 		# - - o - -
 		# - - O - -
@@ -103,7 +102,7 @@ def get_winner(board, coordinates):
 		# - - - - -
 		if coordinates[1] < BOARD_SIZE - 2:
 			if (board[coordinates[0]][coordinates[1] + 1] == current_val and
-						board[coordinates[0]][coordinates[1] + 2] == current_val):
+					board[coordinates[0]][coordinates[1] + 2] == current_val):
 				return Winner(current_val.value)
 		
 		# - - - - o
@@ -113,7 +112,7 @@ def get_winner(board, coordinates):
 		# - - - - -
 		if coordinates[0] < BOARD_SIZE - 2 and coordinates[1] < BOARD_SIZE - 2:
 			if (board[coordinates[0] + 1][coordinates[1] + 1] == current_val and
-						board[coordinates[0] + 2][coordinates[1] + 2] == current_val):
+					board[coordinates[0] + 2][coordinates[1] + 2] == current_val):
 				return Winner(current_val.value)
 		
 		# - - - - -
@@ -123,9 +122,9 @@ def get_winner(board, coordinates):
 		# - - - - -
 		if coordinates[0] < BOARD_SIZE - 2:
 			if (board[coordinates[0] + 1][coordinates[1]] == current_val and
-						board[coordinates[0] + 2][coordinates[1]] == current_val):
+					board[coordinates[0] + 2][coordinates[1]] == current_val):
 				return Winner(current_val.value)
-			
+		
 		# - - - - -
 		# - - - - -
 		# - - O - -
@@ -133,7 +132,7 @@ def get_winner(board, coordinates):
 		# - - - - o
 		if coordinates[0] < BOARD_SIZE - 2 and coordinates[1] >= 2:
 			if (board[coordinates[0] + 1][coordinates[1] - 1] == current_val and
-						board[coordinates[0] + 2][coordinates[1] - 2] == current_val):
+					board[coordinates[0] + 2][coordinates[1] - 2] == current_val):
 				return Winner(current_val.value)
 		
 		# - - - - -
@@ -143,7 +142,7 @@ def get_winner(board, coordinates):
 		# - - o - -
 		if coordinates[1] >= 2:
 			if (board[coordinates[0]][coordinates[1] - 1] == current_val and
-						board[coordinates[0]][coordinates[1] - 2] == current_val):
+					board[coordinates[0]][coordinates[1] - 2] == current_val):
 				return Winner(current_val.value)
 		
 		# - - - - -
@@ -153,15 +152,15 @@ def get_winner(board, coordinates):
 		# o - - - -
 		if coordinates[0] >= 2 and coordinates[1] >= 2:
 			if (board[coordinates[0] - 1][coordinates[1] - 1] == current_val and
-						board[coordinates[0] - 2][coordinates[1] - 2] == current_val):
+					board[coordinates[0] - 2][coordinates[1] - 2] == current_val):
 				return Winner(current_val.value)
-
+		
 		for column in board:
 			if BoardValue.EMPTY in column:
 				break
 		else:
 			return Winner.DRAW
-		
+	
 	return None
 
 
@@ -182,15 +181,15 @@ def check_move(board, move):
 				move_good = False
 	else:
 		move_good = False
-		
+	
 	return move_good, coordinates
 
 
 def get_game_board(board):
 	return_string = ''
 	length = len(board)
-	for i in range(length-1, -1, -1):
-		return_string += str(i+1)
+	for i in range(length - 1, -1, -1):
+		return_string += str(i + 1)
 		for j in range(0, len(board[i])):
 			return_string += '\t'
 			return_string += board[j][i].value
@@ -198,7 +197,7 @@ def get_game_board(board):
 	
 	for i in range(len(board)):
 		return_string += '\t'
-		return_string += str(i+1)
+		return_string += str(i + 1)
 	return return_string
 
 
@@ -259,7 +258,9 @@ def chat_server():
 								board[coordinates[0]][coordinates[1]] = BoardValue.X
 								board_string = get_game_board(board) + '\n'
 								sock.send(str.encode(board_string))
-								broadcast(server_socket, sock, board_string + 'Enter the coordinates of your next move (x, y):\n>> ')
+								broadcast(server_socket, sock, "X's move:\n" +
+																board_string +
+																'Enter the coordinates of your next move (x, y):\n>> ')
 								
 								winner = get_winner(board, coordinates)
 								if winner == Winner.DRAW:
@@ -272,13 +273,15 @@ def chat_server():
 									broadcast(server_socket, sock, "%s's have won the game\n" % winner.value)
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
-								
+							
 							elif sock in O_LIST and turn == Turn.O_TURN:
 								turn = Turn.X_TURN
 								board[coordinates[0]][coordinates[1]] = BoardValue.O
 								board_string = get_game_board(board) + '\n'
 								sock.send(str.encode(board_string))
-								broadcast(server_socket, sock, board_string + 'Enter the coordinates of your next move (x, y):\n>> ')
+								broadcast(server_socket, sock, "O's move:\n" +
+																board_string +
+																'Enter the coordinates of your next move (x, y):\n>> ')
 								
 								winner = get_winner(board, coordinates)
 								if winner == Winner.DRAW:
@@ -296,7 +299,7 @@ def chat_server():
 								sock.send(str.encode("It is not your turn.\n"))
 						else:
 							sock.send(str.encode("Invalid move. Try again.\n"))
-									
+					
 					else:
 						# remove the socket that's broken
 						if sock in SOCKET_LIST:
@@ -313,7 +316,7 @@ def chat_server():
 				except:
 					broadcast(server_socket, sock, "Client (%s, %s) is offline\n" % addr)
 					continue
-					
+
 
 # broadcast chat messages to all connected clients
 def broadcast(server_socket, sock, message):

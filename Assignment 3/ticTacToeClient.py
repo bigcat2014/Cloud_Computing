@@ -43,14 +43,14 @@ def chat_client():
 				else:
 					# print data
 					sys.stdout.write(data)
-					# sys.stdout.write('Enter the coordinates of your next move (x, y):\n>> ')
-					# sys.stdout.flush()
+					sys.stdout.write('Enter the coordinates of your next move (x, y):\n>> ')
+					sys.stdout.flush()
 			else:
 				# user entered a message
-				msg = sys.stdin.readline()  # input('Enter the coordinates of your next move (x, y):\n>> ')
+				msg = sys.stdin.readline()
 				s.send(str.encode(msg))
-				sys.stdout.write('Enter the coordinates of your next move (x, y):\n>> ')
-				sys.stdout.flush()
+				# sys.stdout.write('Enter the coordinates of your next move (x, y):\n>> ')
+				# sys.stdout.flush()
 
 
 if __name__ == "__main__":

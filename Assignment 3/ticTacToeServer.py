@@ -235,7 +235,7 @@ def chat_server():
 					print("Client (%s,%s) connected as O" % addr)
 					broadcast(server_socket, sockfd, "[%s:%s] entered our game as O\n" % addr)
 				
-				sockfd.send(str.encode("Current Game board:\n" + get_game_board(board)))
+				sockfd.send(str.encode("Current Game board:\n" + get_game_board(board) + "\n"))
 			# a message from a client, not a new connection
 			else:
 				# process data recieved from client,

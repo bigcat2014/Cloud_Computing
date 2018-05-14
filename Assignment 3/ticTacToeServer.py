@@ -16,8 +16,8 @@ BOARD_SIZE = 9
 
 
 class Turn(enum.Enum):
-	X_TURN = enum.auto
-	O_TURN = enum.auto
+	X_TURN = 'X'
+	O_TURN = 'O'
 
 
 class BoardValue(enum.Enum):

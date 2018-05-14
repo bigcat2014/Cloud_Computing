@@ -165,11 +165,18 @@ def get_winner(board, coordinates):
 	return None
 
 
-def check_move(move):
+def check_move(board, move):
 	move_good = True
 	coordinates = []
 	if re.match(r'^\(\d+,\s?\d+\)$', move):
 		coordinates = list(map(int, re.findall(r'\d+', move)))
+		coordinates[:] = [element - 1 for element in coordinates]
+		
+		if len(coordinates) != 2:
+			return False
+		if board[coordinates[0]][coordinates[1]] != BoardValue.EMPTY:
+			return False
+		
 		for num in coordinates:
 			if num < 1 or num > BOARD_SIZE:
 				move_good = False
@@ -200,8 +207,6 @@ def chat_server():
 	
 	# add server socket object to the list of readable connections
 	SOCKET_LIST.append(server_socket)
-	
-	move_good, coordinates = check_move("(1, 1)")
 	
 	turn = Turn.X_TURN
 	board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
@@ -236,10 +241,8 @@ def chat_server():
 					
 					if data:
 						# there is something in the socket
-						broadcast(server_socket, sock, "\r%s" % get_game_board(board))
-						broadcast(server_socket, sock, "\r[%s] %s" % (str(sock.getpeername()), data))
-						move_good, coordinates = check_move(data)
-						if move_good and len(coordinates) == 2:
+						move_good, coordinates = check_move(board, data)
+						if move_good:
 							if sock in X_LIST and turn == Turn.X_TURN:
 								turn = Turn.O_TURN
 								board[coordinates[0]][coordinates[1]] = BoardValue.X
@@ -269,6 +272,8 @@ def chat_server():
 									broadcast(server_socket, sock, "%s's have won the game" % winner)
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+						else:
+							sock.send(str.encode("Invalid move. Try again.\n>> "))
 									
 					else:
 						# remove the socket that's broken

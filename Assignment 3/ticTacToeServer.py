@@ -156,8 +156,9 @@ def get_winner(board, coordinates):
 				return Winner(current_val.value)
 		
 		for column in board:
-			if BoardValue.EMPTY in column:
-				break
+			for tile in column:
+				if tile == BoardValue.EMPTY:
+					break
 		else:
 			return Winner.DRAW
 	
@@ -298,7 +299,7 @@ def chat_server():
 							else:
 								sock.send(str.encode("It is not your turn.\n"))
 						else:
-							sock.send(str.encode("Invalid move. Try again.\n"))
+							sock.send(str.encode("Invalid move. Try again.\n>> "))
 					
 					else:
 						# remove the socket that's broken

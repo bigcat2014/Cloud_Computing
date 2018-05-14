@@ -12,7 +12,7 @@ X_LIST = []
 O_LIST = []
 RECV_BUFFER = 4096
 PORT = 9009
-BOARD_SIZE = 9
+BOARD_SIZE = 3
 
 
 class Turn(enum.Enum):
@@ -258,7 +258,7 @@ def chat_server():
 								turn = Turn.O_TURN
 								board[coordinates[0]][coordinates[1]] = BoardValue.X
 								board_string = get_game_board(board) + '\n'
-								# sock.send(str.encode(board_string))
+								sock.send(str.encode(board_string))
 								broadcast(server_socket, sock, 'Enter the coordinates of your next move (x, y):\n>> ')
 								
 								winner = get_winner(board, coordinates)

@@ -82,8 +82,8 @@ def get_winner(board, coordinates):
 		# - - - - -
 		# - - - - -
 		if coordinates[0] >= 2 and 1 <= coordinates[1] < BOARD_SIZE:
-			if (board[coordinates[0] - 1][coordinates[1] - 1] == current_val and
-						board[coordinates[0] - 2][coordinates[1] - 2] == current_val):
+			if (board[coordinates[0] - 1][coordinates[1] + 1] == current_val and
+						board[coordinates[0] - 2][coordinates[1] + 2] == current_val):
 				return Winner(current_val.value)
 		
 		# - - - - -
@@ -152,8 +152,8 @@ def get_winner(board, coordinates):
 		# - o - - -
 		# o - - - -
 		if coordinates[0] >= 2 and coordinates[1] >= 2:
-			if (board[coordinates[0] + 1][coordinates[1] + 1] == current_val and
-						board[coordinates[0] + 2][coordinates[1] + 2] == current_val):
+			if (board[coordinates[0] - 1][coordinates[1] - 1] == current_val and
+						board[coordinates[0] - 2][coordinates[1] - 2] == current_val):
 				return Winner(current_val.value)
 
 		for column in board:
@@ -189,13 +189,16 @@ def check_move(board, move):
 def get_game_board(board):
 	return_string = ''
 	length = len(board)
-	for i in range(len(board)):
-		return_string += str(length - i)
-		for tile in board[i]:
+	for i in range(length-1, -1, -1):
+		return_string += str(i+1)
+		for j in range(0, len(board[i])):
 			return_string += '\t'
-			return_string += tile.value
+			return_string += board[j][i].value
 		return_string += '\n'
 	
+	for i in range(len(board)):
+		return_string += '\t'
+		return_string += str(i+1)
 	return return_string
 
 
@@ -245,30 +248,38 @@ def chat_server():
 						if move_good:
 							if sock in X_LIST and turn == Turn.X_TURN:
 								turn = Turn.O_TURN
-								board[coordinates[0]][coordinates[1]] = BoardValue.X
-								broadcast(server_socket, sock, get_game_board(board))
+								board[coordinates[1]][coordinates[0]] = BoardValue.X
+								board_string = get_game_board(board)
+								sock.send(str.encode(board_string))
+								broadcast(server_socket, sock, board_string)
 								
 								winner = get_winner(board, coordinates)
 								if winner == Winner.DRAW:
-									broadcast(server_socket, sock, "The game was a draw.")
+									sock.send(str.encode("The game was a draw.\n"))
+									broadcast(server_socket, sock, "The game was a draw.\n")
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 								elif winner:
+									sock.send(str.encode("%s's have won the game\n" % winner.value))
 									broadcast(server_socket, sock, "%s's have won the game\n" % winner.value)
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 								
 							elif sock in O_LIST and turn == Turn.O_TURN:
 								turn = Turn.X_TURN
-								board[coordinates[0]][coordinates[1]] = BoardValue.O
-								broadcast(server_socket, sock, get_game_board(board))
+								board[coordinates[1]][coordinates[0]] = BoardValue.O
+								board_string = get_game_board(board)
+								sock.send(str.encode(board_string))
+								broadcast(server_socket, sock, board_string)
 								
 								winner = get_winner(board, coordinates)
 								if winner == Winner.DRAW:
+									sock.send(str.encode("The game was a draw.\n"))
 									broadcast(server_socket, sock, "The game was a draw.")
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 								elif winner:
+									sock.send(str.encode("%s's have won the game\n" % winner.value))
 									broadcast(server_socket, sock, "%s's have won the game\n" % winner.value)
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]

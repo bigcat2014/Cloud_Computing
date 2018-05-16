@@ -158,7 +158,10 @@ def get_winner(board, coordinates):
 		for column in board:
 			for tile in column:
 				if tile == BoardValue.EMPTY:
-					return None
+					break
+			else:
+				continue
+			break
 		else:
 			return Winner.DRAW
 	

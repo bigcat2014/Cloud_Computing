@@ -283,6 +283,7 @@ def chat_server():
 									broadcast(server_socket, sock, "%s's have won the game\n" % winner.value)
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+									sock.send(str.encode(get_game_board(board) + '\nEnter the coordinates of your next move (x, y):\n>> '))
 								else:
 									sock.send(str.encode('Waiting for other players to move...\n'))
 									broadcast(server_socket, sock, 'Enter the coordinates of your next move (x, y):\n>> ')
@@ -300,11 +301,13 @@ def chat_server():
 									broadcast(server_socket, sock, "The game was a draw.")
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+									sock.send(str.encode('Waiting for other players to move...\n'))
 								elif winner:
 									sock.send(str.encode("%s's have won the game\n" % winner.value))
 									broadcast(server_socket, sock, "%s's have won the game\n" % winner.value)
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+									sock.send(str.encode(get_game_board(board) + '\nWaiting for other players to move...\n'))
 								else:
 									sock.send(str.encode('Waiting for other players to move...\n'))
 									broadcast(server_socket, sock, 'Enter the coordinates of your next move (x, y):\n>> ')
@@ -325,6 +328,10 @@ def chat_server():
 						
 						# at this stage, no data means probably the connection has been broken
 						broadcast(server_socket, sock, "Client (%s, %s) is offline\n" % addr)
+						
+						if have_enough_players and (len(X_LIST) == 0 or len(O_LIST) == 0):
+							broadcast(server_socket, sock, "Not enough players. Exiting.\n")
+							sys.exit(0)
 				
 				# exception
 				except:

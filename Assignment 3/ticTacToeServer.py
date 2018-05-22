@@ -11,7 +11,7 @@ X_LIST = []
 O_LIST = []
 RECV_BUFFER = 4096
 PORT = 9009
-BOARD_SIZE = 3
+BOARD_SIZE = 9
 
 have_enough_players = False
 

@@ -333,7 +333,7 @@ def chat_server():
 						
 						if have_enough_players and (len(X_LIST) == 0 or len(O_LIST) == 0):
 							broadcast(server_socket, sock, "Not enough players. Exiting.\n")
-							sys.exit(1)
+							sys.exit(0)
 				
 				# exception
 				except not SystemError:
@@ -361,7 +361,7 @@ def broadcast(server_socket, sock, message):
 				
 				if have_enough_players and (len(X_LIST) == 0 or len(O_LIST) == 0):
 					broadcast(server_socket, sock, "Not enough players. Exiting.\n")
-					sys.exit(1)
+					sys.exit(0)
 
 
 if __name__ == "__main__":

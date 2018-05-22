@@ -332,6 +332,7 @@ def chat_server():
 						broadcast(server_socket, sock, "Client (%s, %s) is offline\n" % addr)
 						
 						if have_enough_players and (len(X_LIST) == 0 or len(O_LIST) == 0):
+							print("Not enough players. Exiting.\n")
 							broadcast(server_socket, sock, "Not enough players. Exiting.\n")
 							sys.exit(0)
 				
@@ -360,6 +361,7 @@ def broadcast(server_socket, sock, message):
 					O_LIST.remove(socket)
 				
 				if have_enough_players and (len(X_LIST) == 0 or len(O_LIST) == 0):
+					print("Not enough players. Exiting.\n")
 					broadcast(server_socket, sock, "Not enough players. Exiting.\n")
 					sys.exit(0)
 

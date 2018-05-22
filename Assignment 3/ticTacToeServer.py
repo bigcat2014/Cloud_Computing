@@ -336,7 +336,7 @@ def chat_server():
 							sys.exit(0)
 				
 				# exception
-				except not SystemError:
+				except Exception:
 					broadcast(server_socket, sock, "Client (%s, %s) is offline\n" % addr)
 					continue
 
@@ -348,7 +348,7 @@ def broadcast(server_socket, sock, message):
 		if socket != server_socket and socket != sock:
 			try:
 				socket.send(str.encode(message))
-			except:
+			except Exception:
 				# broken socket connection
 				socket.close()
 				# broken socket, remove it

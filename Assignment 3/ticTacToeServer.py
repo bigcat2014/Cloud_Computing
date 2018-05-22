@@ -284,6 +284,7 @@ def chat_server():
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 								else:
+									sock.send(str.encode('Waiting for other players to move...\n'))
 									broadcast(server_socket, sock, 'Enter the coordinates of your next move (x, y):\n>> ')
 							
 							elif sock in O_LIST and turn == Turn.O_TURN:
@@ -305,6 +306,7 @@ def chat_server():
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 								else:
+									sock.send(str.encode('Waiting for other players to move...\n'))
 									broadcast(server_socket, sock, 'Enter the coordinates of your next move (x, y):\n>> ')
 							
 							else:

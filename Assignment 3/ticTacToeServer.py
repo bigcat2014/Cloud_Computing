@@ -247,6 +247,7 @@ def chat_server():
 					O_LIST.append(sockfd)
 					print("Client (%s,%s) connected as O" % addr)
 					broadcast(server_socket, sockfd, "[%s:%s] entered our game as O\n" % addr)
+					sockfd.send(str.encode("Current Game board:\n" + get_game_board(board) + "\n"))
 					if turn == Turn.X_TURN:
 						broadcast(server_socket, sockfd, 'Enter the coordinates of your next move (x, y):\n>> ')
 					else:

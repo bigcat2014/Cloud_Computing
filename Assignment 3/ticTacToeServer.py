@@ -285,8 +285,8 @@ def chat_server():
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 									sock.send(str.encode('Enter the coordinates of your next move (x, y):\n>> '))
 								elif winner:
-									sock.send(str.encode("%s's have won the game\n" % winner.value))
-									broadcast(server_socket, sock, "%s's have won the game\n" % winner.value)
+									sock.send(str.encode("%s's have won the game\n\n" % winner.value))
+									broadcast(server_socket, sock, "%s's have won the game\n\n" % winner.value)
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 									sock.send(str.encode(get_game_board(board) + '\nEnter the coordinates of your next move (x, y):\n>> '))
@@ -310,8 +310,8 @@ def chat_server():
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 									sock.send(str.encode('Waiting for other players to move...\n'))
 								elif winner:
-									sock.send(str.encode("%s's have won the game\n" % winner.value))
-									broadcast(server_socket, sock, "%s's have won the game\n" % winner.value)
+									sock.send(str.encode("%s's have won the game\n\n" % winner.value))
+									broadcast(server_socket, sock, "%s's have won the game\n\n" % winner.value)
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 									sock.send(str.encode(get_game_board(board) + '\nWaiting for other players to move...\n'))

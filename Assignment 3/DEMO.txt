@@ -1,0 +1,10 @@
+/*
+ *   Logan Thomas
+ *   Cloud Computing Lab
+ *   Assignment 2
+ */
+
+Assignment 2 Demo
+
+Demo:
+    Demo.jpg

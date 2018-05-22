@@ -1,4 +1,9 @@
 #!/usr/bin/python3
+#
+#  Logan Thomas
+#  Cloud Computing Lab
+#  Assignment 3
+#
 
 import sys
 import socket

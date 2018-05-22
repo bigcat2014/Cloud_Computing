@@ -214,6 +214,7 @@ def chat_server():
 	# add server socket object to the list of readable connections
 	SOCKET_LIST.append(server_socket)
 	
+	have_enough_players = False
 	turn = Turn.X_TURN
 	board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 	print("Chat server started on port " + str(PORT))
@@ -234,17 +235,22 @@ def chat_server():
 					print("Client (%s,%s) connected as X" % addr)
 					broadcast(server_socket, sockfd, "[%s:%s] entered our game as X\n" % addr)
 					sockfd.send(str.encode("Current Game board:\n" + get_game_board(board) + "\n"))
-					if turn == Turn.O_TURN:
-						broadcast(server_socket, sockfd, 'Enter the coordinates of your next move (x, y):\n>> ')
+					if have_enough_players:
+						if turn == Turn.O_TURN:
+							broadcast(server_socket, sockfd, 'Enter the coordinates of your next move (x, y):\n>> ')
+						else:
+							sockfd.send(str.encode('Enter the coordinates of your next move (x, y):\n>> '))
 					else:
-						sockfd.send(str.encode('Enter the coordinates of your next move (x, y):\n>> '))
+						sockfd.send(str.encode('Waiting for players...\n'))
 				else:
+					have_enough_players = True
 					O_LIST.append(sockfd)
 					print("Client (%s,%s) connected as O" % addr)
 					broadcast(server_socket, sockfd, "[%s:%s] entered our game as O\n" % addr)
 					if turn == Turn.X_TURN:
 						broadcast(server_socket, sockfd, 'Enter the coordinates of your next move (x, y):\n>> ')
-					sockfd.send(str.encode("Current Game board:\n" + get_game_board(board) + "\n"))
+					else:
+						sockfd.send(str.encode('Enter the coordinates of your next move (x, y):\n>> '))
 			
 			# a message from a client, not a new connection
 			else:
@@ -262,9 +268,7 @@ def chat_server():
 								board[coordinates[0]][coordinates[1]] = BoardValue.X
 								board_string = get_game_board(board) + '\n'
 								sock.send(str.encode(board_string))
-								broadcast(server_socket, sock, "X's move:\n" +
-																board_string +
-																'Enter the coordinates of your next move (x, y):\n>> ')
+								broadcast(server_socket, sock, "X's move:\n" + board_string)
 								
 								winner = get_winner(board, coordinates)
 								if winner == Winner.DRAW:
@@ -277,15 +281,14 @@ def chat_server():
 									broadcast(server_socket, sock, "%s's have won the game\n" % winner.value)
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+								broadcast(server_socket, sock, 'Enter the coordinates of your next move (x, y):\n>> ')
 							
 							elif sock in O_LIST and turn == Turn.O_TURN:
 								turn = Turn.X_TURN
 								board[coordinates[0]][coordinates[1]] = BoardValue.O
 								board_string = get_game_board(board) + '\n'
 								sock.send(str.encode(board_string))
-								broadcast(server_socket, sock, "O's move:\n" +
-																board_string +
-																'Enter the coordinates of your next move (x, y):\n>> ')
+								broadcast(server_socket, sock, "O's move:\n" + board_string)
 								
 								winner = get_winner(board, coordinates)
 								if winner == Winner.DRAW:
@@ -298,6 +301,7 @@ def chat_server():
 									broadcast(server_socket, sock, "%s's have won the game\n" % winner.value)
 									turn = Turn.X_TURN
 									board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+								broadcast(server_socket, sock, 'Enter the coordinates of your next move (x, y):\n>> ')
 							
 							else:
 								sock.send(str.encode("It is not your turn.\n"))

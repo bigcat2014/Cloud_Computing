@@ -13,6 +13,8 @@ RECV_BUFFER = 4096
 PORT = 9009
 BOARD_SIZE = 3
 
+have_enough_players = False
+
 
 class Turn(enum.Enum):
 	X_TURN = 'X'
@@ -214,7 +216,7 @@ def chat_server():
 	# add server socket object to the list of readable connections
 	SOCKET_LIST.append(server_socket)
 	
-	have_enough_players = False
+	global have_enough_players
 	turn = Turn.X_TURN
 	board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
 	print("Chat server started on port " + str(PORT))
@@ -356,6 +358,10 @@ def broadcast(server_socket, sock, message):
 					X_LIST.remove(socket)
 				if socket in O_LIST:
 					O_LIST.remove(socket)
+				
+				if have_enough_players and (len(X_LIST) == 0 or len(O_LIST) == 0):
+					broadcast(server_socket, sock, "Not enough players. Exiting.\n")
+					sys.exit(0)
 
 
 if __name__ == "__main__":

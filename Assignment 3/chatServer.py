@@ -33,15 +33,16 @@ def chat_server():
 		ready_to_read, ready_to_write, in_error = select.select(SOCKET_LIST, [], [], 0)
 		
 		for sock in ready_to_read:
-			# a new connection request recieved
+			# a new connection_fd request recieved
 			if sock == server_socket:
-				sockfd, addr = server_socket.accept()
-				SOCKET_LIST.append(sockfd)
-				print("Client (%s,%s) connected" % addr)
+				connection_fd, addr = server_socket.accept()
+				SOCKET_LIST.append(connection_fd)
+				print("\rClient (%s,%s) connected" % addr)
 				
-				broadcast(server_socket, sockfd, "[%s:%s] entered our chatting room\n" % addr)
+				connection_fd.send(bytes("You can now start chatting!\n>>", "utf-8"))
+				broadcast(server_socket, connection_fd, "\r[%s:%s] entered our chatting room\n>> " % addr)
 			
-			# a message from a client, not a new connection
+			# a message from a client, not a new connection_fd
 			else:
 				# process data recieved from client,
 				try:
@@ -49,18 +50,21 @@ def chat_server():
 					data = sock.recv(RECV_BUFFER).decode('utf-8')
 					if data:
 						# there is something in the socket
-						broadcast(server_socket, sock, "\r" + '[' + str(sock.getpeername()) + '] ' + data)
+						broadcast(server_socket, sock, "\r%s: %s>> " % (str(sock.getpeername()), data))
+						sock.send(bytes(">> ", "utf-8"))
 					else:
 						# remove the socket that's broken
 						if sock in SOCKET_LIST:
 							SOCKET_LIST.remove(sock)
 						
-						# at this stage, no data means probably the connection has been broken
-						broadcast(server_socket, sock, "Client (%s, %s) is offline\n" % addr)
+						# at this stage, no data means probably the connection_fd has been broken
+						print("\rClient (%s, %s) disconnected" % addr)
+						broadcast(server_socket, sock, "\r(%s, %s) has left\n>> " % addr)
 				
 				# exception
 				except:
-					broadcast(server_socket, sock, "Client (%s, %s) is offline\n" % addr)
+					print("\rClient (%s, %s) disconnected" % addr)
+					broadcast(server_socket, sock, "\r(%s, %s) has left\n>> " % addr)
 					continue
 	
 	server_socket.close()
@@ -69,12 +73,12 @@ def chat_server():
 # broadcast chat messages to all connected clients
 def broadcast(server_socket, sock, message):
 	for socket in SOCKET_LIST:
-		# send the message only to peer
+		# send the message only to peers
 		if socket != server_socket and socket != sock:
 			try:
-				socket.send(str.encode(message))
+				socket.send(bytes(message, "utf-8"))
 			except:
-				# broken socket connection
+				# broken socket connection_fd
 				socket.close()
 				# broken socket, remove it
 				if socket in SOCKET_LIST:

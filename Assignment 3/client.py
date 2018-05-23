@@ -12,7 +12,7 @@ import select
 
 def chat_client():
 	if len(sys.argv) < 3:
-		print('Usage : python ticTacToeClient.py hostname port')
+		print('Usage : python3 chatClient.py hostname port')
 		sys.exit()
 	
 	host = sys.argv[1]
@@ -26,11 +26,8 @@ def chat_client():
 		s.connect((host, port))
 	except:
 		print('Unable to connect')
+		print('Usage : python3 chatClient.py hostname port')
 		sys.exit()
-	
-	print('Connected to remote host. You can start sending messages')
-	# sys.stdout.write('Enter the coordinates of your next move (x, y):\n>> ')
-	# sys.stdout.flush()
 	
 	while 1:
 		socket_list = [sys.stdin, s]
@@ -48,14 +45,12 @@ def chat_client():
 				else:
 					# print data
 					sys.stdout.write(data)
-					# sys.stdout.write('Enter the coordinates of your next move (x, y):\n>> ')
-					# sys.stdout.flush()
+					sys.stdout.flush()
 			else:
 				# user entered a message
 				msg = sys.stdin.readline()
 				s.send(str.encode(msg))
-				# sys.stdout.write('Enter the coordinates of your next move (x, y):\n>> ')
-				# sys.stdout.flush()
+				sys.stdout.flush()
 
 
 if __name__ == "__main__":

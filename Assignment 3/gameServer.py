@@ -316,7 +316,7 @@ PORT = 9009
 X_TEAM = []
 O_TEAM = []
 
-BOARD_SIZE = 3
+BOARD_SIZE = 9
 have_enough_players = False
 turn = Team.X
 board = [[BoardValue.EMPTY for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]

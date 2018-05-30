@@ -1,10 +1,138 @@
 /*
  *   Logan Thomas
  *   Cloud Computing Lab
- *   Assignment 2
+ *   Assignment 3
  */
 
-Assignment 2 Demo
+Assignment 3 Demo
 
 Demo:
-    Demo.jpg
+    chatServerDemo.JPG
+	ticTacToe.JPG
+	
+	Tic Tac Toe output:
+		[ec2-user@ip-172-31-44-29 Assignment 3]$ ./client.py 18.191.40.139 9009
+		[52.14.132.40:47882] entered our game as O
+		Current board:
+		9       -       -       -       -       -       -       -       -       -
+		8       -       -       -       -       -       -       -       -       -
+		7       -       -       -       -       -       -       -       -       -
+		6       -       -       -       -       -       -       -       -       -
+		5       -       -       -       -       -       -       -       -       -
+		4       -       -       -       -       -       -       -       -       -
+		3       -       -       -       -       -       -       -       -       -
+		2       -       -       -       -       -       -       -       -       -
+		1       -       -       -       -       -       -       -       -       -
+				1       2       3       4       5       6       7       8       9
+		Waiting for other players to move...
+		[18.191.79.144:51222] entered our game as X
+		Waiting for other players to move...
+
+		X's move:
+		9       -       -       -       -       -       -       -       -       -
+		8       -       -       -       -       -       -       -       -       -
+		7       -       -       -       -       -       -       -       -       -
+		6       -       -       -       -       -       -       -       -       -
+		5       -       -       -       -       -       -       -       -       -
+		4       -       -       -       -       -       -       -       -       -
+		3       -       -       -       -       -       -       -       -       -
+		2       -       X       -       -       -       -       -       -       -
+		1       -       -       -       -       -       -       -       -       -
+				1       2       3       4       5       6       7       8       9
+		Enter your move (x, y)
+		>> (1,1)
+
+		O's move:
+		9       -       -       -       -       -       -       -       -       -
+		8       -       -       -       -       -       -       -       -       -
+		7       -       -       -       -       -       -       -       -       -
+		6       -       -       -       -       -       -       -       -       -
+		5       -       -       -       -       -       -       -       -       -
+		4       -       -       -       -       -       -       -       -       -
+		3       -       -       -       -       -       -       -       -       -
+		2       -       X       -       -       -       -       -       -       -
+		1       O       -       -       -       -       -       -       -       -
+				1       2       3       4       5       6       7       8       9
+		Waiting for other players to move...
+
+		X's move:
+		9       -       -       -       -       -       -       -       -       -
+		8       -       -       -       -       -       -       -       -       -
+		7       -       -       -       -       -       -       -       -       -
+		6       -       -       -       -       -       -       -       -       -
+		5       -       -       -       -       -       -       -       -       -
+		4       -       -       -       -       -       -       -       -       -
+		3       -       -       X       -       -       -       -       -       -
+		2       -       X       -       -       -       -       -       -       -
+		1       O       -       -       -       -       -       -       -       -
+				1       2       3       4       5       6       7       8       9
+		Enter your move (x, y)
+		>> (2, 1)
+
+		O's move:
+		9       -       -       -       -       -       -       -       -       -
+		8       -       -       -       -       -       -       -       -       -
+		7       -       -       -       -       -       -       -       -       -
+		6       -       -       -       -       -       -       -       -       -
+		5       -       -       -       -       -       -       -       -       -
+		4       -       -       -       -       -       -       -       -       -
+		3       -       -       X       -       -       -       -       -       -
+		2       -       X       -       -       -       -       -       -       -
+		1       O       O       -       -       -       -       -       -       -
+				1       2       3       4       5       6       7       8       9
+		Waiting for other players to move...
+
+		X's move:
+		9       -       -       -       -       -       -       -       -       -
+		8       -       -       -       -       -       -       -       -       -
+		7       -       -       -       -       -       -       -       -       -
+		6       -       -       -       -       -       -       -       -       -
+		5       -       -       -       -       -       -       -       -       -
+		4       -       -       -       -       -       -       -       -       -
+		3       -       -       X       -       -       -       -       -       -
+		2       -       X       -       -       -       -       -       -       -
+		1       O       O       X       -       -       -       -       -       -
+				1       2       3       4       5       6       7       8       9
+		Enter your move (x, y)
+		>> (3, 2)
+
+		O's move:
+		9       -       -       -       -       -       -       -       -       -
+		8       -       -       -       -       -       -       -       -       -
+		7       -       -       -       -       -       -       -       -       -
+		6       -       -       -       -       -       -       -       -       -
+		5       -       -       -       -       -       -       -       -       -
+		4       -       -       -       -       -       -       -       -       -
+		3       -       -       X       -       -       -       -       -       -
+		2       -       X       O       -       -       -       -       -       -
+		1       O       O       X       -       -       -       -       -       -
+				1       2       3       4       5       6       7       8       9
+		Waiting for other players to move...
+
+		X's move:
+		9       -       -       -       -       -       -       -       -       -
+		8       -       -       -       -       -       -       -       -       -
+		7       -       -       -       -       -       -       -       -       -
+		6       -       -       -       -       -       -       -       -       -
+		5       -       -       -       -       -       -       -       -       -
+		4       -       -       -       -       -       -       -       -       -
+		3       X       -       X       -       -       -       -       -       -
+		2       -       X       O       -       -       -       -       -       -
+		1       O       O       X       -       -       -       -       -       -
+				1       2       3       4       5       6       7       8       9
+		X's have won the game
+
+		Current board:
+		9       -       -       -       -       -       -       -       -       -
+		8       -       -       -       -       -       -       -       -       -
+		7       -       -       -       -       -       -       -       -       -
+		6       -       -       -       -       -       -       -       -       -
+		5       -       -       -       -       -       -       -       -       -
+		4       -       -       -       -       -       -       -       -       -
+		3       -       -       -       -       -       -       -       -       -
+		2       -       -       -       -       -       -       -       -       -
+		1       -       -       -       -       -       -       -       -       -
+				1       2       3       4       5       6       7       8       9
+		Waiting for other players to move...
+		(18.191.79.144, 51222) has left
+		Waiting for other players to move...

@@ -5,7 +5,8 @@
  */
 
 Setup:
-    Download the files, open a terminal, and cd to the directory the files are stored in
+    Download the files, open a terminal, and cd to the directory the files are stored in.
+    Must be run on linux box
 
 
 Running:
@@ -17,7 +18,21 @@ Running:
 		$chmod +x [filename].py
 		$./[filename].py [args]
 	
-	Args:
-	    -d, --debug : Debug mode
+	Server Args:
+	    Usage: ./TorrentServer.py [OPTION]...
 
-	    online_book : The address of the utf-8 book to download
+        Starts the torrent server and connects peers to other peers.
+
+        Options:
+          -d, --debug       Enable debug mode
+          -h, --help        Display help and exit
+
+	Client Args:
+        ./Client.py [OPTION]... ADDRESS... PORT... PATH...
+
+        Take the 50 most used words from the book provided in PATH and share with peers.
+        Connects to the torrent server provided by ADDRESS and PORT to find peers.
+
+        Options:
+          -d, --debug       Enable debug mode
+          -h, --help        Display help and exit

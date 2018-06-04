@@ -7,3 +7,4 @@
 Assignment 4 Demo
 
 Demo:
+    See DEMO_1.JPG and DEMO_2.JPG

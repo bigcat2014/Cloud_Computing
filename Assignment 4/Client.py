@@ -91,6 +91,7 @@ def handle_word_list(word_list, recv_word_list):
 		if word in recv_words_dict.keys():
 			common_word_list.append((word, value + recv_words_dict[word]))
 
+	common_word_list = sorted(common_word_list, key=itemgetter(1))
 	print('Common words:')
 	for word, count in common_word_list:
 		print('\t%s: %s' % (word, count))

@@ -104,11 +104,15 @@ def main():
 	if file_path.is_file():
 		if DEBUG:
 			print('Book already exists')
-		book = file_path.open()
 	else:
 		if DEBUG:
 			print('Book does not exist\nDownloading...')
-		book = os.system('wget %s' % PATH)
+		os.system('wget %s' % PATH)
+	if file_path.is_file():
+		book = file_path.open()
+	else:
+		print('File not found: %s' % file_path)
+		sys.exit(1)
 
 	if DEBUG:
 		print('Book: ')

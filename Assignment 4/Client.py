@@ -85,10 +85,11 @@ def count_words(book):
 
 
 def handle_word_list(word_list, recv_word_list):
+	recv_words_dict = dict(recv_word_list)
 	common_word_list = []
-	for word, recv_word in zip(word_list, recv_word_list):
-		if word[0] == recv_word[0]:
-			common_word_list.append((word[0], word[1] + recv_word[1]))
+	for word, value in word_list:
+		if word in recv_words_dict.keys():
+			common_word_list.append((word, value + recv_words_dict[word]))
 
 	print('Common words:')
 	for word, count in common_word_list:
@@ -157,7 +158,6 @@ def main():
 			print('\n')
 			sys.exit(0)
 
-
 	elif ack == 'client_peer':
 		if DEBUG:
 			print('I am the clientPeer')
@@ -189,9 +189,6 @@ def main():
 		print('Server error')
 		sys.exit(1)
 
-
-
-	
 
 if __name__ == '__main__':
 	if not sys.platform.startswith('linux'):
